@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABCD123</title> <!-- Replace with your roll number -->
+</head>
+<body>
+    <h1>Data Processing Application</h1>
+
+    <!-- Input field for JSON data -->
+    <textarea id="jsonInput" placeholder='Enter JSON data here, e.g. {"data": ["M", "1", "334", "4", "B", "Z", "a"]}' rows="10" cols="50"></textarea>
+    <br><br>
+    <button onclick="submitData()">Submit</button>
+
+    <!-- Display results -->
+    <h2>Results:</h2>
+    <pre id="result"></pre>
+
+    <script>
+        async function submitData() {
+            const inputData = document.getElementById('jsonInput').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/bfhl', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: inputData
+                });
+
+                const result = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(result, null, 4);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
